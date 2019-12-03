@@ -8,7 +8,6 @@ function PokemonList() {
     const [pokemons, setPokemons] = useState([]);
     const [modal, setModal] = useState(false);
     const [selectedPokemon, selectPokemon] = useState("");
-    const [description, setDescription] = useState("");
 
     useEffect(() => {
         fetch('https://pokeapi.co/api/v2/pokemon')

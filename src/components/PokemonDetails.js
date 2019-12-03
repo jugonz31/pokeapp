@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+//import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 class PokemonDetails extends Component {
 
@@ -9,7 +9,7 @@ class PokemonDetails extends Component {
                 <div className="row">
                     <div className="col-4">
                         <h4 className="mt-2">{this.props.name}</h4>
-                        <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.props.id}.png`} width="150px" />
+                        <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.props.id}.png`} width="150px" alt=""/>
                     </div>
                     <div className="col-8">
                         <hr />
