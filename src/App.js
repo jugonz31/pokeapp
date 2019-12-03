@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Navbar from './components/Navbar'
+import PokemonList from './components/PokemonList'
 
 function App() {
+  const [searchInput, setSearch] = useState("");
+
+  const handleChange = e => {
+    setSearch(e.target.value);
+    console.log(searchInput);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Navbar onChange={handleChange} />
+      <PokemonList />
     </div>
-  );
-}
+  )
+};
 
 export default App;
