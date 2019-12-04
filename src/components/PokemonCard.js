@@ -5,10 +5,10 @@ class PokemonCard extends Component {
 
     render() {
         return (
-            <div className="mt-2">
+            <div className="mt-4">
                 <Card key={this.props.id} tag="a" style={{ width: "180px" }} onClick={() => this.props.onClick(this)}>
                     <CardImg top width="50%" src={this.props.img}/>
-                        <CardFooter className="text-center">{this.props.name}</CardFooter>
+                        <CardFooter className="badge text-center text-uppercase">{this.props.name}</CardFooter>
                 </Card>
             </div >
         );

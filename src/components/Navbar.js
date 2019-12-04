@@ -11,7 +11,8 @@ class NavbarComponent extends Component {
                         <NavItem>
                             <Form inline>
                                 <FormGroup>
-                                     <Input type="search" name="search" id="searchInput" placeholder="Search" className="mr-auto" onChange={this.props.onChange}/>
+                                     <Input type="search" name="search" id="searchInput" 
+                                     placeholder="Search" className="mr-auto" onChange={this.props.onChange}/>
                                 </FormGroup>
                             </Form>
                         </NavItem>

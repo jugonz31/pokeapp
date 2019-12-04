@@ -8,29 +8,35 @@ class PokemonDetails extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-4">
-                        <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.props.id}.png`} width="150px" alt=""/>
+                        <img className="mt-4" src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.props.id}.png`} width="150px" alt="" />
                     </div>
                     <div className="col-8">
+                        <br />
+                        <p>{this.props.description}</p>
                         <hr />
-                        <p>{this.props.description}descrpition</p>
-                        <hr />
-                        <table width="100%">
-                            <tr>
-                                <th>Height</th>
-                                <th>Weight</th>
-                                <th>Gender</th>
-                                <th>Abilities</th>
-                            </tr>
-                            <tr>
-                                <td>{this.props.height}m</td>
-                                <td>{this.props.weight}kg</td>
-                                <td>{this.props.gender}</td>
-                                <td>{this.props.abilities}</td>
-                            </tr>
+                        <table width="100%" className="mb-3">
+                            <tbody>
+                                <tr>
+                                    <th>Height</th>
+                                    <th>Weight</th>
+
+                                </tr>
+                                <tr>
+                                    <td>{this.props.height}m</td>
+                                    <td>{this.props.weight}kg</td>
+
+                                </tr>
+                                <tr></tr>
+                                <tr>
+                                    <th>Gender</th>
+                                    <th>Abilities</th>
+                                </tr>
+                                <tr>
+                                    <td>{this.props.gender}</td>
+                                    <td>{this.props.abilities}</td>
+                                </tr>
+                            </tbody>
                         </table>
-
-
-
                     </div>
                 </div>
             </div>
