@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CardDeck, Modal } from 'reactstrap'
+import { CardDeck, Modal, ModalHeader} from 'reactstrap'
 import PokemonCard from './PokemonCard'
 import PokemonDetails from './PokemonDetails';
 
@@ -37,7 +37,8 @@ function PokemonList() {
                 {listItem}
             </CardDeck>
             <Modal isOpen={modal} toggle={toggle}>
-                <PokemonDetails name={selectedPokemon.name} id={selectedPokemon.id} height={selectedPokemon.height} weight={selectedPokemon.weight} />
+                <ModalHeader toggle={toggle}>{selectedPokemon.name}</ModalHeader>
+                <PokemonDetails key={selectedPokemon.id} id={selectedPokemon.id} height={selectedPokemon.height} weight={selectedPokemon.weight} />
             </Modal>
         </div>
     )
