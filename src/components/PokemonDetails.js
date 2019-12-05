@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 class PokemonDetails extends Component {
-
     render() {
         return (
             <div className="container">

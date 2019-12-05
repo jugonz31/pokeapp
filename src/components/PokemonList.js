@@ -47,6 +47,7 @@ function PokemonList(props) {
         setModal(!modal);
     }
 
+
     const listItem = pokemons.map((pokemon, index) => {
         return (
             <PokemonCard key={index} name={pokemon.name} id={index} onClick={toggle}
