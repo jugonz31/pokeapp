@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 class PokemonDetails extends Component {
 
@@ -14,11 +14,11 @@ class PokemonDetails extends Component {
                         <br />
                         <p>{this.props.description}</p>
                         <hr />
-                        <table width="100%" className="mb-3">
+                        <table width="100%" >
                             <tbody>
                                 <tr>
-                                    <th>Height</th>
-                                    <th>Weight</th>
+                                    <th width="30%">Height</th>
+                                    <th width="70%">Weight</th>
 
                                 </tr>
                                 <tr>
@@ -26,6 +26,7 @@ class PokemonDetails extends Component {
                                     <td>{this.props.weight}kg</td>
 
                                 </tr>
+                                <tr></tr>
                                 <tr></tr>
                                 <tr>
                                     <th>Gender</th>
@@ -37,6 +38,20 @@ class PokemonDetails extends Component {
                                 </tr>
                             </tbody>
                         </table>
+
+                    </div>
+                    <div className="col">
+                        <hr />
+                        <h5 className="text-center"><b>Stats</b></h5>
+                        <ResponsiveContainer width='100%' aspect={5.0/3.0}>
+                            <BarChart data={this.props.stats}
+                                margin={{ top:10, right: 30, left: 10, bottom: 5 }}>
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
+                                <Bar dataKey="power" fill="#8884d8" />
+                            </BarChart>
+                        </ResponsiveContainer>
                     </div>
                 </div>
             </div>

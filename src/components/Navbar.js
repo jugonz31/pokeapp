@@ -6,7 +6,7 @@ class NavbarComponent extends Component {
         return (
             <div>
                 <Navbar color="light" light>
-                    <NavbarBrand href="/">PokeApp</NavbarBrand>
+                    <NavbarBrand href="/">PokéApp</NavbarBrand>
                     <Nav>
                         <NavItem>
                             <Form inline>
