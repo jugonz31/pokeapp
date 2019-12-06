@@ -79,10 +79,19 @@ function PokemonList(props) {
 
 
     const listItem = pokemonList.map((pokemon, index) => {
+        if (props.searchInput.length !== 0) {
+            if (pokemon.name.includes(props.searchInput)) {
+                return (
+                    <PokemonCard key={index} name={pokemon.name} id={index} onClick={toggle}
+                        img={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} />
+                )
+            } else return("");
+        }
         return (
             <PokemonCard key={index} name={pokemon.name} id={index} onClick={toggle}
                 img={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} />
         )
+
     });
 
     return (

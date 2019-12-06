@@ -13,7 +13,7 @@ function App() {
   return (
     <div>
       <Navbar onChange={handleChange} />
-      <PokemonList/>
+      <PokemonList searchInput={searchInput}/>
     </div>
   )
 };

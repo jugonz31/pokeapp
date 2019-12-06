@@ -3,11 +3,13 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 
 class PokemonDetails extends Component {
     render() {
+        const imgurl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+this.props.id+".png";
+
         return (
             <div className="container">
                 <div className="row">
                     <div className="col-4">
-                        <img className="mt-4" src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.props.id}.png`} width="150px" alt="" />
+                        <img className="mt-4" src={imgurl} width="150px" alt="" />
                     </div>
                     <div className="col-8">
                         <br />
