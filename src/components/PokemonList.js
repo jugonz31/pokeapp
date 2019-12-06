@@ -1,17 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { CardDeck, Modal, ModalHeader } from 'reactstrap'
 import PokemonCard from './PokemonCard'
 import PokemonDetails from './PokemonDetails';
+import debounce from "lodash.debounce";
 
 function PokemonList(props) {
-    const pokemons = props.pokemons;
+    const [pokemonList, setPokemonList] = useState([]);
     const [modal, setModal] = useState(false);
     const [selectedPokemon, selectPokemon] = useState("");
     const [description, setDescription] = useState("");
     const [abilities, setAbilities] = useState("");
-    const [gender, setGender] = useState("")
-    const [stats, setStats] = useState([])
+    const [gender, setGender] = useState("");
+    const [stats, setStats] = useState([]);
+    const [counter] = useState(0);
+    const [isLoading, loading] = useState(false);
+    const [index, setIndex] = useState(0);
+
+    window.onscroll = debounce(() => {
+        if (isLoading) return;
+
+        if (
+            window.innerHeight + document.documentElement.scrollTop
+            === document.documentElement.offsetHeight
+        ) {
+            loadUsers();
+        }
+    }, 1000);
+
+    const loadUsers = async () => {
+        loading(true);
+        const newIndex = index + 20;
+        setIndex(newIndex);
+        const reqstr = "https://pokeapi.co/api/v2/pokemon?offset=" + (newIndex) + "&limit=20";
+        const res = await axios.get(reqstr);
+        setPokemonList([...pokemonList, ...res.data.results]);
+        loading(false);
+    }
+
+    useEffect(() => {
+        axios.get('https://pokeapi.co/api/v2/pokemon')
+            .then(res => setPokemonList(res.data.results));
+    }, [counter])
 
     const getPokemonDetails = async (e) => {
         var str = "", arrstr = "", chartData = [];
@@ -48,7 +78,7 @@ function PokemonList(props) {
     }
 
 
-    const listItem = pokemons.map((pokemon, index) => {
+    const listItem = pokemonList.map((pokemon, index) => {
         return (
             <PokemonCard key={index} name={pokemon.name} id={index} onClick={toggle}
                 img={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} />
