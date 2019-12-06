@@ -3,7 +3,6 @@ import axios from 'axios';
 import { CardDeck, Modal, ModalHeader } from 'reactstrap'
 import PokemonCard from './PokemonCard'
 import PokemonDetails from './PokemonDetails';
-import debounce from "lodash.debounce";
 
 function PokemonList(props) {
     const [pokemonList, setPokemonList] = useState([]);
@@ -17,16 +16,12 @@ function PokemonList(props) {
     const [isLoading, loading] = useState(false);
     const [index, setIndex] = useState(0);
 
-    window.onscroll = debounce(() => {
+    window.onscroll = (() => {
         if (isLoading) return;
-
-        if (
-            window.innerHeight + document.documentElement.scrollTop
-            === document.documentElement.offsetHeight
-        ) {
+        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
             loadUsers();
         }
-    }, 1000);
+    });
 
     const loadUsers = async () => {
         loading(true);
@@ -85,7 +80,7 @@ function PokemonList(props) {
                     <PokemonCard key={index} name={pokemon.name} id={index} onClick={toggle}
                         img={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} />
                 )
-            } else return("");
+            } else return ("");
         }
         return (
             <PokemonCard key={index} name={pokemon.name} id={index} onClick={toggle}
