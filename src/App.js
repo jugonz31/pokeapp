@@ -6,7 +6,7 @@ function App() {
   const [searchInput, setSearch] = useState("");
 
   const handleChange = e => {
-    setSearch(e.target.value);
+    setSearch(e.target.value.toLowerCase());
     console.log(searchInput);
   }
 
