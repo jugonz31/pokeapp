@@ -1,7 +1,8 @@
-import { SELECT_NEW_POKEMON, SELECT_SAVED_POKEMON, UNSELECT_POKEMON } from "../actions/actions"
+import { SELECT_NEW_POKEMON, SELECT_SAVED_POKEMON, UNSELECT_POKEMON, COMPARE_POKEMON } from "../actions/actions"
 
 const initialState = {
     selectedPokemon: {},
+    comparison: {},
     savedPokemons: []
 }
 
@@ -20,6 +21,11 @@ function reducer(state = initialState, action) {
             }
         case UNSELECT_POKEMON:
             return { ...state, selectedPokemon: {} }
+        case COMPARE_POKEMON:
+            return {
+                ...state,
+                comparison: action.payload.selectedPokemon
+            }
         default:
             return state;
     }

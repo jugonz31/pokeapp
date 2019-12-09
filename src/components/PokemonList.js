@@ -3,22 +3,27 @@ import axios from 'axios';
 import { Modal, ModalHeader, Button } from 'reactstrap'
 import PokemonCard from './PokemonCard'
 import PokemonDetails from './PokemonDetails';
+import PokemonComparison from "./PokemonComparison";
 import { useSelector, useDispatch } from 'react-redux';
-import { SELECT_NEW_POKEMON, SELECT_SAVED_POKEMON, UNSELECT_POKEMON } from "../actions/actions"
+import { SELECT_NEW_POKEMON, SELECT_SAVED_POKEMON, UNSELECT_POKEMON, COMPARE_POKEMON } from "../actions/actions"
 
 function PokemonList(props) {
     const [pokemonList, setPokemonList] = useState([]);
     const [isLoading, loading] = useState(false);
+    const [isComparing, comparing] = useState(false);
     const [modal, setModal] = useState(false);
-    const [index, setIndex] = useState(-20);
+    const [comparisonModal, setComparisonModal] = useState(false);
+    const [index, setIndex] = useState(0);
     const [reloader] = useState(0);
 
     const selectedPokemon = useSelector(state => state.selectedPokemon);
+    const pokemonBeingCompared = useSelector(state => state.comparison);
     const savedPokemons = useSelector(state => state.savedPokemons);
     const dispatcher = useDispatch();
 
     useEffect(() => {
-        loadPokemons();
+        axios.get('https://pokeapi.co/api/v2/pokemon')
+            .then(res => setPokemonList(res.data.results));
     }, [reloader])
 
     window.onscroll = (() => {
@@ -38,14 +43,24 @@ function PokemonList(props) {
     }
 
     const toggle = async (e) => {
-        if (!modal) {
-            await getPokemonDetails(e);
-        } else dispatcher({ type: UNSELECT_POKEMON });
-        setModal(!modal);
+        if (isComparing) {
+            if (!comparisonModal)
+                await getPokemonDetails(e)
+            else {
+                dispatcher({ type: UNSELECT_POKEMON });
+                comparing(false);
+            }
+            setComparisonModal(!comparisonModal)
+
+        } else {
+            if (!modal)
+                await getPokemonDetails(e);
+            else dispatcher({ type: UNSELECT_POKEMON });
+            setModal(!modal);
+        }
     }
 
     const getPokemonDetails = async (e) => {
-
         const savedPokemonsFilter = await savedPokemons.filter(pokemon => (pokemon.id === (e.props.id + 1)))
 
         if (savedPokemonsFilter[0] !== undefined) {
@@ -88,15 +103,13 @@ function PokemonList(props) {
                 gender: pokemonGender
             };
 
-            dispatcher({
-                type: SELECT_NEW_POKEMON, payload: { selectedPokemon: pokemonData }
-
-            });
+            dispatcher({ type: isComparing ? COMPARE_POKEMON : SELECT_NEW_POKEMON, payload: { selectedPokemon: pokemonData } });
         }
     }
 
     const handleComparison = () => {
-
+        setModal(false);
+        comparing(true);
     }
 
     const pokemonCards = pokemonList.map((pokemon, index) => {
@@ -125,8 +138,14 @@ function PokemonList(props) {
                     <b>{selectedPokemon.name}</b>
                     <Button size="sm" className="ml-2 text-wrap" onClick={handleComparison}>Compare to...</Button>
                 </ModalHeader>
-                <PokemonDetails id={selectedPokemon.id} description={selectedPokemon.description} stats={selectedPokemon.stats}
-                    height={selectedPokemon.height} weight={selectedPokemon.weight} abilities={selectedPokemon.abilities} gender={selectedPokemon.gender} />
+                <PokemonDetails selectedPokemon={selectedPokemon}/>
+            </Modal>
+
+            <Modal isOpen={comparisonModal} toggle={toggle}>
+                <ModalHeader className="text-uppercase" toggle={toggle}>
+                    <b>{selectedPokemon.name} vs. {pokemonBeingCompared.name}</b>
+                </ModalHeader>
+                <PokemonComparison pokemon1={selectedPokemon} pokemon2={pokemonBeingCompared}/>
             </Modal>
         </div>
     );

@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 import useVibrant from 'use-vibrant-hook';
 
 const PokemonDetails = (props) => {
-    const imgurl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + props.id + ".png";
+    const imgurl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + props.selectedPokemon.id + ".png";
     const { colors, done } = useVibrant(imgurl);
 
     return (
@@ -14,7 +14,7 @@ const PokemonDetails = (props) => {
                 </div>
                 <div className="col-8">
                     <br />
-                    <p>{props.description}</p>
+                    <p>{props.selectedPokemon.description}</p>
                     <hr />
                     <table width="100%" >
                         <tbody>
@@ -24,8 +24,8 @@ const PokemonDetails = (props) => {
 
                             </tr>
                             <tr>
-                                <td>{props.height}m</td>
-                                <td>{props.weight}kg</td>
+                                <td>{props.selectedPokemon.height}m</td>
+                                <td>{props.selectedPokemon.weight}kg</td>
 
                             </tr>
                             <tr></tr>
@@ -35,8 +35,8 @@ const PokemonDetails = (props) => {
                                 <th>Abilities</th>
                             </tr>
                             <tr>
-                                <td>{props.gender}</td>
-                                <td>{props.abilities}</td>
+                                <td>{props.selectedPokemon.gender}</td>
+                                <td>{props.selectedPokemon.abilities}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -47,7 +47,7 @@ const PokemonDetails = (props) => {
                     <h5 className="text-center"><b>Stats</b></h5>
                     {done &&
                         <ResponsiveContainer width='100%' aspect={5.0 / 3.0}>
-                            <BarChart data={props.stats}
+                            <BarChart data={props.selectedPokemon.stats}
                                 margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
                                 <XAxis dataKey="name" />
                                 <YAxis />
