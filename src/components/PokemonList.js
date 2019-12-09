@@ -1,29 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { CardDeck, Modal, ModalHeader } from 'reactstrap'
+import { Modal, ModalHeader } from 'reactstrap'
 import PokemonCard from './PokemonCard'
 import PokemonDetails from './PokemonDetails';
 
 function PokemonList(props) {
     const [pokemonList, setPokemonList] = useState([]);
-    const [modal, setModal] = useState(false);
     const [selectedPokemon, selectPokemon] = useState("");
-    const [description, setDescription] = useState("");
-    const [abilities, setAbilities] = useState("");
-    const [gender, setGender] = useState("");
-    const [stats, setStats] = useState([]);
-    const [counter] = useState(0);
+    const [modal, setModal] = useState(false);
+    const [reloader] = useState(0);
     const [isLoading, loading] = useState(false);
     const [index, setIndex] = useState(0);
 
     window.onscroll = (() => {
         if (isLoading) return;
         if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
-            loadUsers();
+            loadPokemons();
         }
     });
 
-    const loadUsers = async () => {
+    const loadPokemons = async () => {
         loading(true);
         const newIndex = index + 20;
         setIndex(newIndex);
@@ -36,33 +32,49 @@ function PokemonList(props) {
     useEffect(() => {
         axios.get('https://pokeapi.co/api/v2/pokemon')
             .then(res => setPokemonList(res.data.results));
-    }, [counter])
+    }, [reloader])
 
     const getPokemonDetails = async (e) => {
-        var str = "", arrstr = "", chartData = [];
+        var pokemonName = "", pokemonAbilities = "", pokemonStats = [],
+            pokemonDescription = "", pokemonGender = "", stat = "",
+            pokemonId = 0, pokemonWeight = 0, pokemonHeight = 0;
+
         await axios.get('https://pokeapi.co/api/v2/pokemon/' + (e.props.id + 1))
             .then(res => {
+                pokemonId = res.data.id;
+                pokemonWeight = res.data.weight;
+                pokemonHeight = res.data.height;
+                pokemonName = res.data.name;
                 for (var i = 0; i < res.data.abilities.length; i++) {
-                    str += res.data.abilities[i].ability.name;
-                    str += ", "
+                    pokemonAbilities += res.data.abilities[i].ability.name + ", ";
                 }
-                str = str.substr(0, str.length - 2)
+                pokemonAbilities = pokemonAbilities.substr(0, pokemonAbilities.length - 2)
 
                 for (i = 0; i < res.data.stats.length; i++) {
-                    arrstr = "{ \"name\": \"" + res.data.stats[i].stat.name + "\", \"power\": \"" + res.data.stats[i].base_stat + "\" }"
-                    chartData.push(JSON.parse(arrstr))
+                    stat = "{ \"name\": \"" + res.data.stats[i].stat.name + "\", \"power\": \"" + res.data.stats[i].base_stat + "\" }"
+                    pokemonStats.push(JSON.parse(stat))
                 }
-
-                setStats(chartData);
-                setAbilities(str);
-                selectPokemon(res.data);
             })
 
         await axios.get('https://pokeapi.co/api/v2/pokemon-species/' + (e.props.id + 1))
             .then(res => {
-                setDescription(res.data.flavor_text_entries[1].flavor_text);
-                setGender((res.data.gender_rate < 4) ? (res.data.gender_rate = -1 ? "Male" : "Undefined") : "Female")
+                pokemonDescription = (res.data.flavor_text_entries[1].flavor_text);
+                pokemonGender = ((res.data.gender_rate < 4) ? (res.data.gender_rate = -1 ? "Male" : "Undefined") : "Female");
             })
+
+
+        await selectPokemon({
+            id: pokemonId,
+            name: pokemonName,
+            weight: pokemonWeight,
+            height: pokemonHeight,
+            abilities: pokemonAbilities,
+            stats: pokemonStats,
+            description: pokemonDescription,
+            gender: pokemonGender
+        });
+
+        console.log(selectedPokemon)
     }
 
     const toggle = async (e) => {
@@ -91,13 +103,13 @@ function PokemonList(props) {
 
     return (
         <div className="container mt-2">
-            <CardDeck>
+            <div className="card-deck justify-content-center">
                 {listItem}
-            </CardDeck>
+            </div>
             <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader className="text-uppercase" toggle={toggle}><b>{selectedPokemon.name}</b></ModalHeader>
-                <PokemonDetails id={selectedPokemon.id} description={description} stats={stats}
-                    height={selectedPokemon.height} weight={selectedPokemon.weight} abilities={abilities} gender={gender} />
+                <PokemonDetails id={selectedPokemon.id} description={selectedPokemon.description} stats={selectedPokemon.stats}
+                    height={selectedPokemon.height} weight={selectedPokemon.weight} abilities={selectedPokemon.abilities} gender={selectedPokemon.gender} />
             </Modal>
         </div>
     )

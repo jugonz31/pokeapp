@@ -49,7 +49,7 @@ const PokemonDetails = (props) => {
                         <ResponsiveContainer width='100%' aspect={5.0 / 3.0}>
                             <BarChart data={props.stats}
                                 margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
-                                <XAxis dataKey="name" />
+                                <XAxis dataKey="name"/>
                                 <YAxis />
                                 <Tooltip />
                                 <Bar dataKey="power" fill={colors.DarkVibrant.hex} />
