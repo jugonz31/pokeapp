@@ -3,18 +3,22 @@ import axios from 'axios';
 import { Modal, ModalHeader, Button } from 'reactstrap'
 import PokemonCard from './PokemonCard'
 import PokemonDetails from './PokemonDetails';
+import { useSelector, useDispatch } from 'react-redux';
+import { SELECT_NEW_POKEMON, SELECT_SAVED_POKEMON, UNSELECT_POKEMON } from "../actions/actions"
 
 function PokemonList(props) {
     const [pokemonList, setPokemonList] = useState([]);
-    const [selectedPokemon, selectPokemon] = useState("");
     const [isLoading, loading] = useState(false);
     const [modal, setModal] = useState(false);
-    const [index, setIndex] = useState(0);
+    const [index, setIndex] = useState(-20);
     const [reloader] = useState(0);
 
+    const selectedPokemon = useSelector(state => state.selectedPokemon);
+    const savedPokemons = useSelector(state => state.savedPokemons);
+    const dispatcher = useDispatch();
+
     useEffect(() => {
-        axios.get('https://pokeapi.co/api/v2/pokemon')
-            .then(res => setPokemonList(res.data.results));
+        loadPokemons();
     }, [reloader])
 
     window.onscroll = (() => {
@@ -36,48 +40,63 @@ function PokemonList(props) {
     const toggle = async (e) => {
         if (!modal) {
             await getPokemonDetails(e);
-        }
+        } else dispatcher({ type: UNSELECT_POKEMON });
         setModal(!modal);
     }
 
     const getPokemonDetails = async (e) => {
-        var pokemonName = "", pokemonAbilities = "", pokemonStats = [],
-            pokemonDescription = "", pokemonGender = "", stat = "",
-            pokemonId = 0, pokemonWeight = 0, pokemonHeight = 0;
 
-        await axios.all([
-            axios.get('https://pokeapi.co/api/v2/pokemon/' + (e.props.id + 1)),
-            axios.get('https://pokeapi.co/api/v2/pokemon-species/' + (e.props.id + 1))
-        ]).then(axios.spread((res1, res2) => {
-            pokemonId = res1.data.id;
-            pokemonWeight = res1.data.weight;
-            pokemonHeight = res1.data.height;
-            pokemonName = res1.data.name;
-            pokemonDescription = (res2.data.flavor_text_entries[1].flavor_text);
-            pokemonGender = ((res2.data.gender_rate < 4) ? (res2.data.gender_rate = -1 ? "Male" : "Undefined") : "Female");
+        const savedPokemonsFilter = await savedPokemons.filter(pokemon => (pokemon.id === (e.props.id + 1)))
 
-            for (var i = 0; i < res1.data.stats.length; i++) {
-                stat = "{ \"name\": \"" + res1.data.stats[i].stat.name + "\", \"power\": \"" + res1.data.stats[i].base_stat + "\" }"
-                pokemonStats.push(JSON.parse(stat))
-            }
+        if (savedPokemonsFilter[0] !== undefined) {
+            dispatcher({ type: SELECT_SAVED_POKEMON, payload: { id: (e.props.id + 1) } })
+        } else {
+            var pokemonName = "", pokemonAbilities = "", pokemonStats = [],
+                pokemonDescription = "", pokemonGender = "", stat = "",
+                pokemonId = (e.props.id + 1), pokemonWeight = 0, pokemonHeight = 0;
 
-            for (i = 0; i < res1.data.abilities.length; i++) {
-                pokemonAbilities += res1.data.abilities[i].ability.name + ", ";
-            }
+            await axios.all([
+                axios.get('https://pokeapi.co/api/v2/pokemon/' + pokemonId),
+                axios.get('https://pokeapi.co/api/v2/pokemon-species/' + pokemonId)
+            ]).then(axios.spread((res1, res2) => {
+                pokemonWeight = res1.data.weight;
+                pokemonHeight = res1.data.height;
+                pokemonName = res1.data.name;
+                pokemonDescription = (res2.data.flavor_text_entries[1].flavor_text);
+                pokemonGender = ((res2.data.gender_rate < 4) ? (res2.data.gender_rate = -1 ? "Male" : "Undefined") : "Female");
 
-            pokemonAbilities = pokemonAbilities.substr(0, pokemonAbilities.length - 2)
-        }));
+                for (var i = 0; i < res1.data.stats.length; i++) {
+                    stat = "{ \"name\": \"" + res1.data.stats[i].stat.name + "\", \"power\": \"" + res1.data.stats[i].base_stat + "\" }"
+                    pokemonStats.push(JSON.parse(stat))
+                }
 
-        selectPokemon({
-            id: pokemonId,
-            name: pokemonName,
-            weight: pokemonWeight,
-            height: pokemonHeight,
-            abilities: pokemonAbilities,
-            stats: pokemonStats,
-            description: pokemonDescription,
-            gender: pokemonGender
-        });
+                for (i = 0; i < res1.data.abilities.length; i++) {
+                    pokemonAbilities += res1.data.abilities[i].ability.name + ", ";
+                }
+
+                pokemonAbilities = pokemonAbilities.substr(0, pokemonAbilities.length - 2)
+            }));
+
+            const pokemonData = {
+                id: pokemonId,
+                name: pokemonName,
+                weight: pokemonWeight,
+                height: pokemonHeight,
+                abilities: pokemonAbilities,
+                stats: pokemonStats,
+                description: pokemonDescription,
+                gender: pokemonGender
+            };
+
+            dispatcher({
+                type: SELECT_NEW_POKEMON, payload: { selectedPokemon: pokemonData }
+
+            });
+        }
+    }
+
+    const handleComparison = () => {
+
     }
 
     const pokemonCards = pokemonList.map((pokemon, index) => {
@@ -93,7 +112,8 @@ function PokemonList(props) {
         return (
             <PokemonCard key={index} name={pokemon.name} id={index} onClick={toggle}
                 img={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} />
-        )});
+        )
+    });
 
     return (
         <div className="container mt-2">
@@ -103,7 +123,7 @@ function PokemonList(props) {
             <Modal isOpen={modal} toggle={toggle}>
                 <ModalHeader className="text-uppercase" toggle={toggle}>
                     <b>{selectedPokemon.name}</b>
-                    <Button size="sm" className="ml-2 text-wrap">Compare to...</Button>
+                    <Button size="sm" className="ml-2 text-wrap" onClick={handleComparison}>Compare to...</Button>
                 </ModalHeader>
                 <PokemonDetails id={selectedPokemon.id} description={selectedPokemon.description} stats={selectedPokemon.stats}
                     height={selectedPokemon.height} weight={selectedPokemon.weight} abilities={selectedPokemon.abilities} gender={selectedPokemon.gender} />
