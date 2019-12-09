@@ -7,10 +7,10 @@ import PokemonDetails from './PokemonDetails';
 function PokemonList(props) {
     const [pokemonList, setPokemonList] = useState([]);
     const [selectedPokemon, selectPokemon] = useState("");
-    const [modal, setModal] = useState(false);
-    const [reloader] = useState(0);
     const [isLoading, loading] = useState(false);
+    const [modal, setModal] = useState(false);
     const [index, setIndex] = useState(0);
+    const [reloader] = useState(0);
 
     window.onscroll = (() => {
         if (isLoading) return;
@@ -39,29 +39,28 @@ function PokemonList(props) {
             pokemonDescription = "", pokemonGender = "", stat = "",
             pokemonId = 0, pokemonWeight = 0, pokemonHeight = 0;
 
-        await axios.get('https://pokeapi.co/api/v2/pokemon/' + (e.props.id + 1))
-            .then(res => {
-                pokemonId = res.data.id;
-                pokemonWeight = res.data.weight;
-                pokemonHeight = res.data.height;
-                pokemonName = res.data.name;
-                for (var i = 0; i < res.data.abilities.length; i++) {
-                    pokemonAbilities += res.data.abilities[i].ability.name + ", ";
-                }
-                pokemonAbilities = pokemonAbilities.substr(0, pokemonAbilities.length - 2)
+        await axios.all([
+            axios.get('https://pokeapi.co/api/v2/pokemon/' + (e.props.id + 1)),
+            axios.get('https://pokeapi.co/api/v2/pokemon-species/' + (e.props.id + 1))
+        ]).then(axios.spread((res1, res2) => {
+            pokemonId = res1.data.id;
+            pokemonWeight = res1.data.weight;
+            pokemonHeight = res1.data.height;
+            pokemonName = res1.data.name;
+            pokemonDescription = (res2.data.flavor_text_entries[1].flavor_text);
+            pokemonGender = ((res2.data.gender_rate < 4) ? (res2.data.gender_rate = -1 ? "Male" : "Undefined") : "Female");
 
-                for (i = 0; i < res.data.stats.length; i++) {
-                    stat = "{ \"name\": \"" + res.data.stats[i].stat.name + "\", \"power\": \"" + res.data.stats[i].base_stat + "\" }"
-                    pokemonStats.push(JSON.parse(stat))
-                }
-            })
+            for (var i = 0; i < res1.data.stats.length; i++) {
+                stat = "{ \"name\": \"" + res1.data.stats[i].stat.name + "\", \"power\": \"" + res1.data.stats[i].base_stat + "\" }"
+                pokemonStats.push(JSON.parse(stat))
+            }
 
-        await axios.get('https://pokeapi.co/api/v2/pokemon-species/' + (e.props.id + 1))
-            .then(res => {
-                pokemonDescription = (res.data.flavor_text_entries[1].flavor_text);
-                pokemonGender = ((res.data.gender_rate < 4) ? (res.data.gender_rate = -1 ? "Male" : "Undefined") : "Female");
-            })
+            for (i = 0; i < res1.data.abilities.length; i++) {
+                pokemonAbilities += res1.data.abilities[i].ability.name + ", ";
+            }
 
+            pokemonAbilities = pokemonAbilities.substr(0, pokemonAbilities.length - 2)
+        }));
 
         await selectPokemon({
             id: pokemonId,
