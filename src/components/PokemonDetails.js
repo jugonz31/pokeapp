@@ -9,7 +9,7 @@ const PokemonDetails = (props) => {
     return (
         <div className="container">
             <div className="row">
-                <div className="col-4">
+                <div className="col-4 ">
                     <img className="mt-4" src={imgurl} width="150px" alt="" />
                 </div>
                 <div className="col-8">
@@ -40,8 +40,8 @@ const PokemonDetails = (props) => {
                             </tr>
                         </tbody>
                     </table>
-
                 </div>
+
                 <div className="col">
                     <hr />
                     <h5 className="text-center"><b>Stats</b></h5>
@@ -49,7 +49,7 @@ const PokemonDetails = (props) => {
                         <ResponsiveContainer width='100%' aspect={5.0 / 3.0}>
                             <BarChart data={props.stats}
                                 margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
-                                <XAxis dataKey="name"/>
+                                <XAxis dataKey="name" />
                                 <YAxis />
                                 <Tooltip />
                                 <Bar dataKey="power" fill={colors.DarkVibrant.hex} />

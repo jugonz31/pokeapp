@@ -18,7 +18,6 @@ class NavbarComponent extends Component {
                         </NavItem>
                     </Nav>
                 </Navbar>
-
             </div>
         );
     }

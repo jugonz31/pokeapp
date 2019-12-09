@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Modal, ModalHeader } from 'reactstrap'
+import { Modal, ModalHeader, Button } from 'reactstrap'
 import PokemonCard from './PokemonCard'
 import PokemonDetails from './PokemonDetails';
 
@@ -11,6 +11,11 @@ function PokemonList(props) {
     const [modal, setModal] = useState(false);
     const [index, setIndex] = useState(0);
     const [reloader] = useState(0);
+
+    useEffect(() => {
+        axios.get('https://pokeapi.co/api/v2/pokemon')
+            .then(res => setPokemonList(res.data.results));
+    }, [reloader])
 
     window.onscroll = (() => {
         if (isLoading) return;
@@ -23,16 +28,17 @@ function PokemonList(props) {
         loading(true);
         const newIndex = index + 20;
         setIndex(newIndex);
-        const reqstr = "https://pokeapi.co/api/v2/pokemon?offset=" + (newIndex) + "&limit=20";
-        const res = await axios.get(reqstr);
+        const res = await axios.get("https://pokeapi.co/api/v2/pokemon?offset=" + (newIndex) + "&limit=20");
         setPokemonList([...pokemonList, ...res.data.results]);
         loading(false);
     }
 
-    useEffect(() => {
-        axios.get('https://pokeapi.co/api/v2/pokemon')
-            .then(res => setPokemonList(res.data.results));
-    }, [reloader])
+    const toggle = async (e) => {
+        if (!modal) {
+            await getPokemonDetails(e);
+        }
+        setModal(!modal);
+    }
 
     const getPokemonDetails = async (e) => {
         var pokemonName = "", pokemonAbilities = "", pokemonStats = [],
@@ -62,7 +68,7 @@ function PokemonList(props) {
             pokemonAbilities = pokemonAbilities.substr(0, pokemonAbilities.length - 2)
         }));
 
-        await selectPokemon({
+        selectPokemon({
             id: pokemonId,
             name: pokemonName,
             weight: pokemonWeight,
@@ -72,46 +78,38 @@ function PokemonList(props) {
             description: pokemonDescription,
             gender: pokemonGender
         });
-
-        console.log(selectedPokemon)
     }
 
-    const toggle = async (e) => {
-        if (!modal) {
-            await getPokemonDetails(e);
-        }
-        setModal(!modal);
-    }
-
-
-    const listItem = pokemonList.map((pokemon, index) => {
+    const pokemonCards = pokemonList.map((pokemon, index) => {
         if (props.searchInput.length !== 0) {
             if (pokemon.name.includes(props.searchInput)) {
                 return (
                     <PokemonCard key={index} name={pokemon.name} id={index} onClick={toggle}
                         img={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} />
                 )
-            } else return ("");
+            } else return "";
         }
+
         return (
             <PokemonCard key={index} name={pokemon.name} id={index} onClick={toggle}
                 img={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} />
-        )
-
-    });
+        )});
 
     return (
         <div className="container mt-2">
             <div className="card-deck justify-content-center">
-                {listItem}
+                {pokemonCards}
             </div>
             <Modal isOpen={modal} toggle={toggle}>
-                <ModalHeader className="text-uppercase" toggle={toggle}><b>{selectedPokemon.name}</b></ModalHeader>
+                <ModalHeader className="text-uppercase" toggle={toggle}>
+                    <b>{selectedPokemon.name}</b>
+                    <Button size="sm" className="ml-2 text-wrap">Compare to...</Button>
+                </ModalHeader>
                 <PokemonDetails id={selectedPokemon.id} description={selectedPokemon.description} stats={selectedPokemon.stats}
                     height={selectedPokemon.height} weight={selectedPokemon.weight} abilities={selectedPokemon.abilities} gender={selectedPokemon.gender} />
             </Modal>
         </div>
-    )
+    );
 }
 
 export default PokemonList;
