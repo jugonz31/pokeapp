@@ -5,7 +5,7 @@ import PokemonCard from './PokemonCard'
 import PokemonDetails from './PokemonDetails';
 import PokemonComparison from "./PokemonComparison";
 import { useSelector, useDispatch } from 'react-redux';
-import { SELECT_POKEMON, SELECT_SAVED_POKEMON, UNSELECT_POKEMONS, COMPARE_POKEMON, SAVE_POKEMON } from "../actions/actions"
+import { SELECT_POKEMON, SELECT_SAVED_POKEMON, UNSELECT_POKEMONS, COMPARE_POKEMON, SAVE_POKEMON } from "../redux/actions/pokemonActions"
 
 function PokemonList(props) {
     const [pokemonList, setPokemonList] = useState([]);

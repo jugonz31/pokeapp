@@ -1,7 +1,7 @@
 import {
     SELECT_POKEMON, SELECT_SAVED_POKEMON, UNSELECT_POKEMONS,
     COMPARE_POKEMON, SAVE_POKEMON
-} from "../actions/actions"
+} from "../actions/pokemonActions"
 
 const initialState = {
     selectedPokemon: {},
