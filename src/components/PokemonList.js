@@ -146,7 +146,7 @@ function PokemonList(props) {
                     {pokemonCards}
                 </div>
 
-                {(isComparing & !comparisonModal) &&
+                {(isComparing && !comparisonModal) &&
                     <Toast style={{
                         position: "fixed",
                         right: "20px",
