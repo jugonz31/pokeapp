@@ -9,7 +9,6 @@ function App() {
 
   const handleChange = e => {
     setSearch(e.target.value.toLowerCase());
-    console.log(searchInput);
   }
 
   return (

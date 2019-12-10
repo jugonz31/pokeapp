@@ -20,7 +20,7 @@ function reducer(state = initialState, action) {
                 selectedPokemon: state.savedPokemons.filter(pokemon => pokemon.id === action.payload.id)[0]
             }
         case UNSELECT_POKEMON:
-            return { ...state, selectedPokemon: {} }
+            return { ...state, selectedPokemon: {}, comparison: {} }
         case COMPARE_POKEMON:
             return {
                 ...state,

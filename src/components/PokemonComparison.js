@@ -12,7 +12,6 @@ const PokemonComparison = (props) => {
             var str = "{\"name\": \"" + props.pokemon1.stats[i].name + "\", \"" + props.pokemon1.name + "\": \"" + props.pokemon1.stats[i].power + "\", \"" + props.pokemon2.name + "\": \"" + props.pokemon2.stats[i].power + "\" }"
             arr.push(JSON.parse(str));
         }
-        console.log(arr)
         return arr;
     }
 
