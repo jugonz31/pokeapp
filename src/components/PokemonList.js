@@ -5,7 +5,7 @@ import PokemonCard from './PokemonCard'
 import PokemonDetails from './PokemonDetails';
 import PokemonComparison from "./PokemonComparison";
 import { useSelector, useDispatch } from 'react-redux';
-import { SELECT_NEW_POKEMON, SELECT_SAVED_POKEMON, UNSELECT_POKEMON, COMPARE_POKEMON } from "../actions/actions"
+import { SELECT_POKEMON, SELECT_SAVED_POKEMON, UNSELECT_POKEMONS, COMPARE_POKEMON, SAVE_POKEMON } from "../actions/actions"
 
 function PokemonList(props) {
     const [pokemonList, setPokemonList] = useState([]);
@@ -42,21 +42,42 @@ function PokemonList(props) {
         loading(false);
     }
 
-    const toggle = async (e) => {
+    const modalToggle = async (e) => {
         if (isComparing) {
             if (!comparisonModal)
                 await getPokemonDetails(e)
             else {
                 comparing(false);
-                dispatcher({ type: UNSELECT_POKEMON });
+                dispatcher({ type: UNSELECT_POKEMONS });
             }
             setComparisonModal(!comparisonModal);
 
         } else {
             if (!modal)
                 await getPokemonDetails(e);
-            else dispatcher({ type: UNSELECT_POKEMON });
+            else 
+            dispatcher({ type: UNSELECT_POKEMONS });
             setModal(!modal);
+        }
+    }
+
+    const handleComparison = () => {
+        setModal(false);
+        comparing(true);
+    }
+
+    const getPokemonDetails = async (e) => {
+        const cardId = e.props.id
+        const savedPokemonsFilter = await savedPokemons.filter(pokemon => (pokemon.id === (cardId)))
+        if (savedPokemonsFilter[0] !== undefined) {
+            if (isComparing)
+                dispatcher({ type: COMPARE_POKEMON, payload: { selectedPokemon: savedPokemonsFilter[0] } })
+            else
+                dispatcher({ type: SELECT_SAVED_POKEMON, payload: { id: (cardId) } })
+        } else {
+            const pokemonData = await fetchPokemonData(cardId);
+            dispatcher({ type: isComparing ? COMPARE_POKEMON : SELECT_POKEMON, payload: { selectedPokemon: pokemonData } });
+            dispatcher({ type: SAVE_POKEMON, payload: { selectedPokemon: pokemonData } })
         }
     }
 
@@ -64,6 +85,8 @@ function PokemonList(props) {
         var pokemonName = "", pokemonAbilities = "", pokemonStats = [],
             pokemonDescription = "", pokemonGender = "", stat = "",
             pokemonId = (id), pokemonWeight = 0, pokemonHeight = 0;
+
+        var pokemonImageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png";
 
         await axios.all([
             axios.get('https://pokeapi.co/api/v2/pokemon/' + pokemonId),
@@ -95,51 +118,40 @@ function PokemonList(props) {
             abilities: pokemonAbilities,
             stats: pokemonStats,
             description: pokemonDescription,
-            gender: pokemonGender
+            gender: pokemonGender,
+            imageUrl: pokemonImageUrl
         }
-
-    }
-
-    const getPokemonDetails = async (e) => {
-        const cardId = e.props.id
-        const savedPokemonsFilter = await savedPokemons.filter(pokemon => (pokemon.id === (cardId)))
-        if (savedPokemonsFilter[0] !== undefined) {
-            if (isComparing)
-                dispatcher({ type: COMPARE_POKEMON, payload: { selectedPokemon: savedPokemonsFilter[0] } })
-            else
-                dispatcher({ type: SELECT_SAVED_POKEMON, payload: { id: (cardId) } })
-        } else {
-            const pokemonData = await fetchPokemonData(cardId);
-            dispatcher({ type: isComparing ? COMPARE_POKEMON : SELECT_NEW_POKEMON, payload: { selectedPokemon: pokemonData } });
-        }
-    }
-
-    const handleComparison = () => {
-        setModal(false);
-        comparing(true);
     }
 
     const pokemonCards = pokemonList.map((pokemon, index) => {
         if (props.searchInput.length !== 0) {
             if (pokemon.name.includes(props.searchInput)) {
                 return (
-                    <PokemonCard key={index+1} name={pokemon.name} id={index+1} onClick={toggle}
+                    <PokemonCard key={index + 1} name={pokemon.name} id={index + 1} onClick={modalToggle}
                         img={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} />
                 )
             } else return "";
         }
 
         return (
-            <PokemonCard key={index+1} name={pokemon.name} id={index+1} onClick={toggle}
+            <PokemonCard key={index + 1} name={pokemon.name} id={index + 1} onClick={modalToggle}
                 img={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} />
         )
     });
 
     return (
         <div>
-            {isComparing &&
-                <div className="p-3 my-2 rounded bg-docs-transparent-grid position-fixed zindex-popover">
-                    <Toast>
+            <div className="mt-2 container">
+                <div className="card-deck justify-content-center">
+                    {pokemonCards}
+                </div>
+
+                {(isComparing & !comparisonModal) &&
+                    <Toast style={{
+                        position: "fixed",
+                        right: "20px",
+                        top: "70px"
+                    }}>
                         <ToastHeader>
                             Comparing pokemon
                         </ToastHeader>
@@ -147,16 +159,10 @@ function PokemonList(props) {
                             {selectedPokemon.name}
                         </ToastBody>
                     </Toast>
-                </div>
-            }
-            <div className="container mt-2 position-relative zindex-dropdown">
-                <div className="card-deck justify-content-center">
-                    {pokemonCards}
-                </div>
+                }
 
-
-                <Modal isOpen={modal} toggle={toggle}>
-                    <ModalHeader className="text-uppercase" toggle={toggle}>
+                <Modal isOpen={modal} toggle={modalToggle}>
+                    <ModalHeader className="text-uppercase" toggle={modalToggle}>
                         <b>{selectedPokemon.name}</b>
                         <Button size="sm" className="ml-2 text-wrap" onClick={handleComparison}>Compare to...</Button>
                     </ModalHeader>
@@ -165,8 +171,8 @@ function PokemonList(props) {
                     }
                 </Modal>
 
-                <Modal isOpen={comparisonModal} toggle={toggle}>
-                    <ModalHeader className="text-uppercase" toggle={toggle}>
+                <Modal isOpen={comparisonModal} toggle={modalToggle}>
+                    <ModalHeader className="text-uppercase" toggle={modalToggle}>
                         <b>{selectedPokemon.name} vs. {pokemonBeingCompared.name}</b>
                     </ModalHeader>
                     {comparisonModal &&

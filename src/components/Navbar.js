@@ -4,8 +4,7 @@ import { Navbar, NavbarBrand, Nav, NavItem, Form, FormGroup, Input} from 'reacts
 class NavbarComponent extends Component {    
     render() {
         return (
-            <div>
-                <Navbar color="light" light>
+                <Navbar color="light" light sticky="top">
                     <NavbarBrand href="/">PokéApp</NavbarBrand>
                     <Nav>
                         <NavItem>
@@ -18,7 +17,6 @@ class NavbarComponent extends Component {
                         </NavItem>
                     </Nav>
                 </Navbar>
-            </div>
         );
     }
 }

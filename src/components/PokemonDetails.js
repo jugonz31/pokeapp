@@ -3,18 +3,19 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 import useVibrant from 'use-vibrant-hook';
 
 const PokemonDetails = (props) => {
-    const imgurl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + props.selectedPokemon.id + ".png";
-    const { colors, done } = useVibrant(imgurl);
+    const selectedPokemon = props.selectedPokemon;
+    const { colors, done } = useVibrant(selectedPokemon.imageUrl);
+
 
     return (
         <div className="container">
             <div className="row">
                 <div className="col-4 ">
-                    <img className="mt-4" src={imgurl} width="150px" alt="" />
+                    <img className="mt-4" src={selectedPokemon.imageUrl} width="150px" alt="" />
                 </div>
                 <div className="col-8">
                     <br />
-                    <p>{props.selectedPokemon.description}</p>
+                    <p>{selectedPokemon.description}</p>
                     <hr />
                     <table width="100%" >
                         <tbody>
@@ -24,8 +25,8 @@ const PokemonDetails = (props) => {
 
                             </tr>
                             <tr>
-                                <td>{props.selectedPokemon.height}m</td>
-                                <td>{props.selectedPokemon.weight}kg</td>
+                                <td>{selectedPokemon.height}m</td>
+                                <td>{selectedPokemon.weight}kg</td>
 
                             </tr>
                             <tr></tr>
@@ -35,8 +36,8 @@ const PokemonDetails = (props) => {
                                 <th>Abilities</th>
                             </tr>
                             <tr>
-                                <td>{props.selectedPokemon.gender}</td>
-                                <td>{props.selectedPokemon.abilities}</td>
+                                <td>{selectedPokemon.gender}</td>
+                                <td>{selectedPokemon.abilities}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -47,10 +48,10 @@ const PokemonDetails = (props) => {
                     <h5 className="text-center"><b>Stats</b></h5>
                     {done &&
                         <ResponsiveContainer width='100%' aspect={5.0 / 3.0}>
-                            <BarChart data={props.selectedPokemon.stats}
+                            <BarChart data={selectedPokemon.stats}
                                 margin={{ top: 10, right: 30, left: 10, bottom: 5 }}>
-                                <XAxis dataKey="name" />
-                                <YAxis />
+                                <XAxis dataKey="name" tick={{fontSize: 15}} />
+                                <YAxis tick={{fontSize: 15}} />
                                 <Tooltip />
                                 <Bar dataKey="power" fill={colors.DarkVibrant.hex} />
                             </BarChart>
