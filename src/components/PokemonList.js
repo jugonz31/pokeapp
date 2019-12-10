@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, ModalHeader, Button, Toast, ToastBody, ToastHeader } from 'reactstrap'
-import PokemonCard from './PokemonCard'
+import ElementCard from './ElementCard'
 import PokemonDetails from './PokemonDetails';
 import PokemonComparison from "./PokemonComparison";
 import { useSelector, useDispatch } from 'react-redux';
@@ -127,14 +127,14 @@ function PokemonList(props) {
         if (props.searchInput.length !== 0) {
             if (pokemon.name.includes(props.searchInput)) {
                 return (
-                    <PokemonCard key={index + 1} name={pokemon.name} id={index + 1} onClick={modalToggle}
+                    <ElementCard key={index + 1} name={pokemon.name} id={index + 1} onClick={modalToggle}
                         img={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} />
                 )
             } else return "";
         }
 
         return (
-            <PokemonCard key={index + 1} name={pokemon.name} id={index + 1} onClick={modalToggle}
+            <ElementCard key={index + 1} name={pokemon.name} id={index + 1} onClick={modalToggle}
                 img={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} />
         )
     });

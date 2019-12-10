@@ -8,7 +8,7 @@ class NavbarComponent extends Component {
                 <NavbarBrand href="/">PokéApp</NavbarBrand>
                 <Nav className="mr-auto">
                     <NavItem>
-                        <NavLink light href="/about">About</NavLink>
+                        <NavLink light href="/items">Items</NavLink>
                     </NavItem>
                 </Nav>
                 <Form inline>
