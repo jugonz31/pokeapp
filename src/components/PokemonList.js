@@ -16,9 +16,9 @@ function PokemonList(props) {
     const [index, setIndex] = useState(0);
     const [reloader] = useState(0);
 
-    const selectedPokemon = useSelector(state => state.selectedPokemon);
-    const pokemonBeingCompared = useSelector(state => state.comparison);
-    const savedPokemons = useSelector(state => state.savedPokemons);
+    const selectedPokemon = useSelector(state => state.pokemonReducers.selectedPokemon);
+    const pokemonBeingCompared = useSelector(state => state.pokemonReducers.comparison);
+    const savedPokemons = useSelector(state => state.pokemonReducers.savedPokemons);
     const dispatcher = useDispatch();
 
     useEffect(() => {
@@ -55,8 +55,8 @@ function PokemonList(props) {
         } else {
             if (!modal)
                 await getPokemonDetails(e);
-            else 
-            dispatcher({ type: UNSELECT_POKEMONS });
+            else
+                dispatcher({ type: UNSELECT_POKEMONS });
             setModal(!modal);
         }
     }
@@ -181,9 +181,7 @@ function PokemonList(props) {
                     }
                 </Modal>
             </div >
-
         </div>
-
     );
 }
 

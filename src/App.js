@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import PokemonList from './components/PokemonList';
-import PokemonItems from "./components/PokemonItems"
+import ItemsList from "./components/ItemsList"
 import { Provider } from 'react-redux'
 import store from "./store"
 
@@ -22,7 +22,7 @@ function App() {
         </Route>
         <Route path="/items">
           <Navbar onChange={handleChange} />
-          <PokemonItems />
+          <ItemsList />
         </Route>
         <Route path="*">
           <h2 className="mx-2">Page not found</h2>

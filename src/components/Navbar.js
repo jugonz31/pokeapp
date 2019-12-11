@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Form, FormGroup, Input } from 'reactstrap';
+import { Link } from "react-router-dom";
 
 class NavbarComponent extends Component {
     render() {
@@ -7,8 +8,8 @@ class NavbarComponent extends Component {
             <Navbar color="light" light sticky="top">
                 <NavbarBrand href="/">PokéApp</NavbarBrand>
                 <Nav className="mr-auto">
-                    <NavItem>
-                        <NavLink light href="/items">Items</NavLink>
+                    <NavItem light>
+                        <Link to="/items">Items</Link>
                     </NavItem>
                 </Nav>
                 <Form inline>

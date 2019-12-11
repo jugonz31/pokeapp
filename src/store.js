@@ -1,8 +1,16 @@
-import { createStore } from "redux";
-import reducer from './redux/reducers/pokemonReducers';
+import { createStore, combineReducers } from "redux";
+import pokemonReducers from './redux/reducers/pokemonReducers';
+import itemReducers from './redux/reducers/itemReducers'
 
-const store = createStore(reducer,
-window.__REDUX_DEVTOOLS_EXTENSION__ &&
+const rootReducer = combineReducers({
+    pokemonReducers,
+    itemReducers
+})
+
+const store = createStore(rootReducer,
+window.__REDUX_DEVTOOLS_EXTENSION__ && 
 window.__REDUX_DEVTOOLS_EXTENSION__());
+
+console.log(store.getState())
 
 export default store;

@@ -9,7 +9,7 @@ const initialState = {
     savedPokemons: []
 }
 
-function reducer(state = initialState, action) {
+function pokemonReducers(state = initialState, action) {
     switch (action.type) {
         case SELECT_POKEMON:
             return {
@@ -41,4 +41,4 @@ function reducer(state = initialState, action) {
     }
 }
 
-export default reducer;
+export default pokemonReducers;
