@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Form, FormGroup, Input } from 'reactstrap';
-import { Link } from "react-router-dom";
+import { Navbar, NavbarBrand, Nav, NavItem, Form, FormGroup, Input } from 'reactstrap';
+import { NavLink } from "react-router-dom";
 
 class NavbarComponent extends Component {
     render() {
         return (
-            <Navbar color="light" light sticky="top">
-                <NavbarBrand href="/">PokéApp</NavbarBrand>
+            <Navbar color="light" sticky="top">
+                <NavbarBrand>
+                    <NavLink to="/">PokéApp</NavLink>
+                </NavbarBrand>
                 <Nav className="mr-auto">
-                    <NavItem light>
-                        <Link to="/items">Items</Link>
+                    <NavItem className="mr-2">
+                        <NavLink to="/pokemons" activeClassName="activeLink">Pokemons</NavLink>
+                    </NavItem>
+                    <NavItem >
+                        <NavLink to="/items" activeClassName="activeLink">Items</NavLink>
                     </NavItem>
                 </Nav>
                 <Form inline>

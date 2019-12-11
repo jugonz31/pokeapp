@@ -2,7 +2,6 @@ import React from 'react';
 
 export default function ItemDetails(props) {
     const selectedItem = props.selectedItem
-    console.log(selectedItem.attributes)
 
     return (
         <div className="container">
@@ -18,22 +17,24 @@ export default function ItemDetails(props) {
                         <tbody>
                             <tr>
                                 <th width="30%">Cost</th>
-                                <th width="70%">Attributes</th>
-
+                                {selectedItem.attributes[0] !== undefined &&
+                                    <th width="70%">Attributes</th>
+                                }
                             </tr>
                             <tr>
                                 <td>{selectedItem.cost}</td>
                                 <td>
                                     <ul>
-                                        {selectedItem.attributes.map((item , index)=> <li key={index}>{item}</li>)}
+                                        {selectedItem.attributes.map((item, index) => <li key={index}>{item}</li>)}
                                     </ul>
                                 </td>
 
                             </tr>
                         </tbody>
                     </table>
+                    <br />
                 </div>
             </div>
-        </div>
+        </div >
     );
 }

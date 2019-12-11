@@ -5,6 +5,7 @@ import PokemonList from './components/PokemonList';
 import ItemsList from "./components/ItemsList"
 import { Provider } from 'react-redux'
 import store from "./store"
+import Home from './components/Home';
 
 function App() {
   const [searchInput, setSearch] = useState("");
@@ -17,6 +18,10 @@ function App() {
     <Provider store={store}>
       <Switch>
         <Route exact path="/">
+          <Navbar onChange={handleChange} />
+          <Home />
+        </Route>
+        <Route exact path="/pokemons">
           <Navbar onChange={handleChange} />
           <PokemonList searchInput={searchInput} />
         </Route>

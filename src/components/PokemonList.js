@@ -82,44 +82,41 @@ function PokemonList(props) {
     }
 
     const fetchPokemonData = async (id) => {
-        var pokemonName = "", pokemonAbilities = "", pokemonStats = [],
-            pokemonDescription = "", pokemonGender = "", stat = "",
-            pokemonId = (id), pokemonWeight = 0, pokemonHeight = 0;
-
-        var pokemonImageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png";
+        var pokemonAbilities = [], pokemonStats = [], pokemonTypes = [], response1, response2
 
         await axios.all([
-            axios.get('https://pokeapi.co/api/v2/pokemon/' + pokemonId),
-            axios.get('https://pokeapi.co/api/v2/pokemon-species/' + pokemonId)
+            axios.get('https://pokeapi.co/api/v2/pokemon/' + id),
+            axios.get('https://pokeapi.co/api/v2/pokemon-species/' + id)
         ]).then(axios.spread((res1, res2) => {
-            pokemonWeight = res1.data.weight;
-            pokemonHeight = res1.data.height;
-            pokemonName = res1.data.name;
-            pokemonDescription = (res2.data.flavor_text_entries[1].flavor_text);
-            pokemonGender = ((res2.data.gender_rate < 4) ? (res2.data.gender_rate = -1 ? "Male" : "Undefined") : "Female");
+            response1 = res1.data;
+            response2 = res2.data
 
             for (var i = 0; i < res1.data.stats.length; i++) {
-                stat = "{ \"name\": \"" + res1.data.stats[i].stat.name + "\", \"power\": \"" + res1.data.stats[i].base_stat + "\" }"
-                pokemonStats.push(JSON.parse(stat))
+                pokemonStats.push(JSON.parse(
+                    "{ \"name\": \"" + res1.data.stats[i].stat.name + "\", \"power\": \"" + res1.data.stats[i].base_stat + "\" }"
+                ))
             }
 
             for (i = 0; i < res1.data.abilities.length; i++) {
-                pokemonAbilities += res1.data.abilities[i].ability.name + ", ";
+                pokemonAbilities.push(res1.data.abilities[i].ability.name);
             }
 
-            pokemonAbilities = pokemonAbilities.substr(0, pokemonAbilities.length - 2)
+            for (i = 0; i < res1.data.types.length; i++) {
+                pokemonTypes.push(res1.data.types[i].type.name);
+            }
         }));
 
         return {
-            id: pokemonId,
-            name: pokemonName,
-            weight: pokemonWeight,
-            height: pokemonHeight,
+            id: id,
+            name: response1.name,
+            weight: response1.weight,
+            height: response1.height,
             abilities: pokemonAbilities,
+            types: pokemonTypes,
             stats: pokemonStats,
-            description: pokemonDescription,
-            gender: pokemonGender,
-            imageUrl: pokemonImageUrl
+            description: response2.flavor_text_entries[1].flavor_text,
+            gender: ((response1.gender_rate < 4) ? (response1.data.gender_rate = -1 ? "Male" : "Undefined") : "Female"),
+            imageUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png"
         }
     }
 

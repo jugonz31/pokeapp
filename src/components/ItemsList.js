@@ -7,9 +7,12 @@ import { CardDeck, Modal, ModalHeader } from 'reactstrap'
 import { UNSELECT_ITEM, SELECT_ITEM, SELECT_SAVED_ITEM } from '../redux/actions/itemActions';
 export default function ItemsList() {
 
-  const [itemsList, setitemsList] = useState([]);
+  const [itemsList, setItemsList] = useState([]);
   const [reloader] = useState(0);
+  const [index, setIndex] = useState(0);
   const [modal, setModal] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+
 
   const selectedItem = useSelector(state => state.itemReducers.selectedItem);
   const savedItems = useSelector(state => state.itemReducers.savedItems);
@@ -17,8 +20,15 @@ export default function ItemsList() {
 
   useEffect(() => {
     axios.get("https://pokeapi.co/api/v2/item")
-      .then(res => setitemsList(res.data.results))
+      .then(res => setItemsList(res.data.results))
   }, [reloader])
+
+  window.onscroll = (() => {
+    if (isLoading) return;
+    if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+      loadItems();
+    }
+  });
 
   const modalToggle = async (e) => {
     if (!modal)
@@ -67,6 +77,14 @@ export default function ItemsList() {
     )
   })
 
+  const loadItems = async () => {
+    setLoading(true);
+    const newIndex = index + 20;
+    setIndex(newIndex);
+    const res = await axios.get("https://pokeapi.co/api/v2/item/?offset=" + newIndex + "&limit=20")
+    setItemsList([...itemsList, ...res.data.results])
+    setLoading(false);
+  }
 
   return (
     <div className="container mt-2">
@@ -82,8 +100,6 @@ export default function ItemsList() {
           <ItemDetails selectedItem={selectedItem} />
         }
       </Modal>
-
-
-    </div>
+    </div >
   );
 }
