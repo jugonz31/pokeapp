@@ -5,8 +5,8 @@ import ElementCard from './ElementCard'
 import ItemDetails from './ItemDetails'
 import { CardDeck, Modal, ModalHeader } from 'reactstrap'
 import { UNSELECT_ITEM, SELECT_ITEM, SELECT_SAVED_ITEM } from '../redux/actions/itemActions';
-export default function ItemsList() {
 
+export default function ItemsList(props) {
   const [itemsList, setItemsList] = useState([]);
   const [reloader] = useState(0);
   const [index, setIndex] = useState(0);
@@ -71,6 +71,15 @@ export default function ItemsList() {
 
 
   const itemsCards = itemsList.map((item, index) => {
+    if (props.searchInput !== undefined) {
+      if (item.name.includes(props.searchInput)) {
+        return (
+          <ElementCard id={index + 1} key={index + 1} name={item.name} onClick={modalToggle}
+            img={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/" + item.name + ".png"} />
+        )
+      } else return ""
+    }
+
     return (
       <ElementCard id={index + 1} key={index + 1} name={item.name} onClick={modalToggle}
         img={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/" + item.name + ".png"} />

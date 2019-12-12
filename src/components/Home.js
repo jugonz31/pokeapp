@@ -1,19 +1,12 @@
 import React from 'react';
-import { Jumbotron, Button, Card, CardText, CardImg, CardBody, CardColumns } from 'reactstrap';
+import { Jumbotron, Button, CardDeck } from 'reactstrap';
 import libraries from '../libraries'
 import { Link } from 'react-router-dom'
+import ElementCard from './ElementCard';
 
-const librariesList = libraries.map(item => {
+const librariesList = libraries.map((item, index) => {
     return (
-        <Card>
-            <CardImg top width="100%" src={item.src} alt={item.title} className="librariesCard" />
-            <CardBody>
-                <CardText className="text-center text-uppercase text-wrap"><small><b>{item.description}</b></small></CardText>
-                <CardText className="text-center">
-                    <small className="text-muted"><a href={item.url} rel="noopener noreferrer" target="_blank">CHECK IT</a></small>
-                </CardText>
-            </CardBody>
-        </Card>
+        <ElementCard id={index} key={index} img={item.src} name={item.title}/>
     )
 })
 
@@ -24,22 +17,23 @@ const Home = () => {
             <br />
             <Jumbotron className="text-center">
                 <h1 className="display-3">Welcome to PokéApp!</h1>
-                <p className="lead">This is a simple hero unit, a simple Jumbotron-style component for calling extra attention to featured content or information.</p>
-                <hr className="my-2" />
-                <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+                <p>All the information comes from <a href="https://pokeapi.co">PokéApi</a> by HTTP requests.</p>
                 <p className="lead">
                     <Link to="/pokemons">
-                        <Button color="secondary">Check the pokemons list</Button>
+                        <Button className="mr-2" color="secondary">Check the Pokémon list</Button>
+                    </Link>
+                    <Link to="/items">
+                        <Button color="secondary">Check the items list</Button>
                     </Link>
 
                 </p>
             </Jumbotron>
             <hr />
-            <h3 className="text-center">Some of the libraries that i've used for this:</h3>
+            <h4 className="text-center">Some of the libraries that i've used for this:</h4>
             <br />
-            <CardColumns className="mb-5">
+            <CardDeck className="justify-content-center">
                 {librariesList}
-            </CardColumns>
+            </CardDeck>
         </div>
     );
 };

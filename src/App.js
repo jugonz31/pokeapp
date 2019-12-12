@@ -27,7 +27,7 @@ function App() {
         </Route>
         <Route path="/items">
           <Navbar onChange={handleChange} />
-          <ItemsList />
+          <ItemsList searchInput={searchInput}/>
         </Route>
         <Route path="*">
           <h2 className="mx-2">Page not found</h2>
