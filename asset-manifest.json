@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/pokeapp/static/css/main.95ad77f8.chunk.css",
+    "main.js": "/pokeapp/static/js/main.07b6c008.chunk.js",
+    "main.js.map": "/pokeapp/static/js/main.07b6c008.chunk.js.map",
+    "runtime-main.js": "/pokeapp/static/js/runtime-main.df182e31.js",
+    "runtime-main.js.map": "/pokeapp/static/js/runtime-main.df182e31.js.map",
+    "static/css/2.17e5ed98.chunk.css": "/pokeapp/static/css/2.17e5ed98.chunk.css",
+    "static/js/2.730007ec.chunk.js": "/pokeapp/static/js/2.730007ec.chunk.js",
+    "static/js/2.730007ec.chunk.js.map": "/pokeapp/static/js/2.730007ec.chunk.js.map",
+    "index.html": "/pokeapp/index.html",
+    "precache-manifest.f154e3de026546186f59eb3e90a03723.js": "/pokeapp/precache-manifest.f154e3de026546186f59eb3e90a03723.js",
+    "service-worker.js": "/pokeapp/service-worker.js",
+    "static/css/2.17e5ed98.chunk.css.map": "/pokeapp/static/css/2.17e5ed98.chunk.css.map",
+    "static/css/main.95ad77f8.chunk.css.map": "/pokeapp/static/css/main.95ad77f8.chunk.css.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.df182e31.js",
+    "static/css/2.17e5ed98.chunk.css",
+    "static/js/2.730007ec.chunk.js",
+    "static/css/main.95ad77f8.chunk.css",
+    "static/js/main.07b6c008.chunk.js"
+  ]
+}
