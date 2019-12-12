@@ -61,11 +61,6 @@ function PokemonList(props) {
         }
     }
 
-    const handleComparison = () => {
-        setModal(false);
-        comparing(true);
-    }
-
     const getPokemonDetails = async (e) => {
         const cardId = e.props.id
         const savedPokemonsFilter = await savedPokemons.filter(pokemon => (pokemon.id === (cardId)))
@@ -135,6 +130,11 @@ function PokemonList(props) {
                 img={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`} />
         )
     });
+
+    const handleComparison = () => {
+        setModal(false);
+        comparing(true);
+    }
 
     return (
         <div>

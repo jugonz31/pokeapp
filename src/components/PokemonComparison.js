@@ -30,7 +30,7 @@ const PokemonComparison = (props) => {
                 </div>
             </div>
             <hr />
-            <table width="100%" className="text-center mx-auto">
+            <table width="100%" className="text-center comparison-table mx-auto">
                 <tbody>
                     <tr>
                         <td width="38%">{pokemon1.height}m</td>
@@ -49,11 +49,11 @@ const PokemonComparison = (props) => {
                     </tr>
                     <tr>
                         <td>
-                            {pokemon1.abilities.map((ability, index) => <div>{ability}</div>)}
+                            {pokemon1.abilities.map((ability) => <div>{ability}</div>)}
                         </td>
                         <th>Abilities</th>
                         <td>
-                            {pokemon2.abilities.map((ability, index) => <div>{ability}</div>)}
+                            {pokemon2.abilities.map((ability) => <div>{ability}</div>)}
                         </td>
                     </tr>
                 </tbody>

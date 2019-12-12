@@ -13,7 +13,6 @@ export default function ItemsList(props) {
   const [modal, setModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
-
   const selectedItem = useSelector(state => state.itemReducers.selectedItem);
   const savedItems = useSelector(state => state.itemReducers.savedItems);
   const dispatcher = useDispatch();

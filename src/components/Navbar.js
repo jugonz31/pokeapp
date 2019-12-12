@@ -14,7 +14,7 @@ class NavbarComponent extends Component {
                         <NavLink to="/pokemons" className="navbar-links" activeClassName="activeLink">Pokemons</NavLink>
                     </NavItem>
                     <NavItem >
-                        <NavLink to="/items"  className="navbar-links"  activeClassName="activeLink">Items</NavLink>
+                        <NavLink to="/items" className="navbar-links" activeClassName="activeLink">Items</NavLink>
                     </NavItem>
                 </Nav>
                 <Form inline>
