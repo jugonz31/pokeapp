@@ -7,14 +7,14 @@ class NavbarComponent extends Component {
         return (
             <Navbar color="light" sticky="top">
                 <NavbarBrand>
-                    <NavLink to="/">PokéApp</NavLink>
+                    <NavLink to="/" className="navbar-links">PokéApp</NavLink>
                 </NavbarBrand>
                 <Nav className="mr-auto">
                     <NavItem className="mr-2">
-                        <NavLink to="/pokemons" activeClassName="activeLink">Pokemons</NavLink>
+                        <NavLink to="/pokemons" className="navbar-links" activeClassName="activeLink">Pokemons</NavLink>
                     </NavItem>
                     <NavItem >
-                        <NavLink to="/items" activeClassName="activeLink">Items</NavLink>
+                        <NavLink to="/items"  className="navbar-links"  activeClassName="activeLink">Items</NavLink>
                     </NavItem>
                 </Nav>
                 <Form inline>

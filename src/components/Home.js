@@ -22,7 +22,7 @@ const Home = () => {
     return (
         <div className="container">
             <br />
-            <Jumbotron>
+            <Jumbotron className="text-center">
                 <h1 className="display-3">Welcome to PokéApp!</h1>
                 <p className="lead">This is a simple hero unit, a simple Jumbotron-style component for calling extra attention to featured content or information.</p>
                 <hr className="my-2" />
