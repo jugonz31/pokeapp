@@ -1,3 +1,5 @@
+# PokéApp
+
 El objetivo de este proyecto es utilizar las librerias y herramientas apropiadas para consultar informacion acerca de Pokémon y poder mostrarla de forma apropiada. Los datos e imagenes de los Pokémon son consultados por medio de peticiones HTTP y estan disponibles en [PokéAPI](https://pokeapi.co/)
 
 Este proyecto fue realizado en React.js y se utilizaron las siguientes librerias y utilidades:
