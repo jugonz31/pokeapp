@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/pokeapp/static/css/main.95ad77f8.chunk.css",
-    "main.js": "/pokeapp/static/js/main.af524481.chunk.js",
-    "main.js.map": "/pokeapp/static/js/main.af524481.chunk.js.map",
+    "main.js": "/pokeapp/static/js/main.e4cbe89b.chunk.js",
+    "main.js.map": "/pokeapp/static/js/main.e4cbe89b.chunk.js.map",
     "runtime-main.js": "/pokeapp/static/js/runtime-main.df182e31.js",
     "runtime-main.js.map": "/pokeapp/static/js/runtime-main.df182e31.js.map",
     "static/css/2.17e5ed98.chunk.css": "/pokeapp/static/css/2.17e5ed98.chunk.css",
     "static/js/2.730007ec.chunk.js": "/pokeapp/static/js/2.730007ec.chunk.js",
     "static/js/2.730007ec.chunk.js.map": "/pokeapp/static/js/2.730007ec.chunk.js.map",
     "index.html": "/pokeapp/index.html",
-    "precache-manifest.5bc5f11fe4732324c22d6e40bbe672c9.js": "/pokeapp/precache-manifest.5bc5f11fe4732324c22d6e40bbe672c9.js",
+    "precache-manifest.e79af07e63f1154e7a23ec63302940d9.js": "/pokeapp/precache-manifest.e79af07e63f1154e7a23ec63302940d9.js",
     "service-worker.js": "/pokeapp/service-worker.js",
     "static/css/2.17e5ed98.chunk.css.map": "/pokeapp/static/css/2.17e5ed98.chunk.css.map",
     "static/css/main.95ad77f8.chunk.css.map": "/pokeapp/static/css/main.95ad77f8.chunk.css.map"
@@ -19,6 +19,6 @@
     "static/css/2.17e5ed98.chunk.css",
     "static/js/2.730007ec.chunk.js",
     "static/css/main.95ad77f8.chunk.css",
-    "static/js/main.af524481.chunk.js"
+    "static/js/main.e4cbe89b.chunk.js"
   ]
 }
