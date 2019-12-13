@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6e3fcad943396e9207ad701db6a379cc",
+    "revision": "c0c5a87fcc2d143ee9281531ce252b83",
     "url": "/pokeapp/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/pokeapp/static/css/2.17e5ed98.chunk.css"
   },
   {
-    "revision": "2dabf7b85318a2fc5490",
+    "revision": "585f61d564a1bfbeedea",
     "url": "/pokeapp/static/css/main.95ad77f8.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/pokeapp/static/js/2.57f4c68a.chunk.js"
   },
   {
-    "revision": "2dabf7b85318a2fc5490",
-    "url": "/pokeapp/static/js/main.62523795.chunk.js"
+    "revision": "585f61d564a1bfbeedea",
+    "url": "/pokeapp/static/js/main.33a63cba.chunk.js"
   },
   {
     "revision": "7d7189e3ae7ad859c861",
