@@ -136,6 +136,24 @@ function PokemonList(props) {
         comparing(true);
     }
 
+    let comparingAdvise = null;
+
+    if (isComparing && (!comparisonModal)) {
+        comparingAdvise = (
+            <Toast style={{
+                position: "fixed",
+                right: "20px",
+                top: "70px"
+            }}>
+                <ToastHeader>
+                    Comparing pokemon
+        </ToastHeader>
+                <ToastBody className="text-uppercase font-weight-bold">
+                    {selectedPokemon.name}
+                </ToastBody>
+            </Toast>)
+    }
+
     return (
         <div>
             <div className="mt-2 container">
@@ -143,20 +161,7 @@ function PokemonList(props) {
                     {pokemonCards}
                 </div>
 
-                {(isComparing && !comparisonModal) &&
-                    <Toast style={{
-                        position: "fixed",
-                        right: "20px",
-                        top: "70px"
-                    }}>
-                        <ToastHeader>
-                            Comparing pokemon
-                        </ToastHeader>
-                        <ToastBody className="text-uppercase font-weight-bold">
-                            {selectedPokemon.name}
-                        </ToastBody>
-                    </Toast>
-                }
+                {comparingAdvise}
 
                 <Modal isOpen={modal} toggle={modalToggle}>
                     <ModalHeader className="text-uppercase" toggle={modalToggle}>

@@ -49,11 +49,11 @@ const PokemonComparison = (props) => {
                     </tr>
                     <tr>
                         <td>
-                            {pokemon1.abilities.map((ability) => <div>{ability}</div>)}
+                            {pokemon1.abilities.map((ability, index) => <div key={index}>{ability}</div>)}
                         </td>
                         <th>Abilities</th>
                         <td>
-                            {pokemon2.abilities.map((ability) => <div>{ability}</div>)}
+                            {pokemon2.abilities.map((ability, index) => <div key={index}>{ability}</div>)}
                         </td>
                     </tr>
                 </tbody>

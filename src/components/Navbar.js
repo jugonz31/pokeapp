@@ -17,12 +17,14 @@ class NavbarComponent extends Component {
                         <NavLink to="/items" className="navbar-links" activeClassName="activeLink">Items</NavLink>
                     </NavItem>
                 </Nav>
-                <Form inline>
-                    <FormGroup>
-                        <Input type="search" name="search" id="searchInput"
-                            placeholder="Search" className="mr-auto" onChange={this.props.onChange} />
-                    </FormGroup>
-                </Form>
+                {this.props.search &&
+                    <Form inline>
+                        <FormGroup>
+                            <Input type="search" name="search" id="searchInput"
+                                placeholder="Search" className="mr-auto" onChange={this.props.onChange} />
+                        </FormGroup>
+                    </Form>
+                }
             </Navbar>
         );
     }

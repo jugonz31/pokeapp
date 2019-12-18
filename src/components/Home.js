@@ -6,7 +6,7 @@ import ElementCard from './ElementCard';
 
 const librariesList = libraries.map((item, index) => {
     return (
-        <ElementCard id={index} key={index} img={item.src} name={item.title}/>
+        <ElementCard id={index} key={index} img={item.src} name={item.title} onClick={() => window.open(item.url)}/>
     )
 })
 
